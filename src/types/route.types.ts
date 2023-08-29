@@ -1,0 +1,3 @@
+enum Routes {
+    USER = 'user',
+}
