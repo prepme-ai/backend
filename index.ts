@@ -35,6 +35,9 @@ initializeDatabase();
 
 //Routes
 app.use(...routeGenerator(Routes.USER, user));
+app.get("/", (req, res) => {
+  res.send("You made it you moron!");
+});
 
 app.listen(port, () => {
   console.log(`${port} port is listening...`);

@@ -7,8 +7,7 @@ import {
 
 const router = Router();
 
-router.post("/register", postRegister);
-router.get("/details/:uid", getUserDetails);
+router.post("/", postRegister).get("/details/:uid", getUserDetails);
 router.get("/refreshToken/:uid", refreshToken);
 
 export default router;

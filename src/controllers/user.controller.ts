@@ -3,6 +3,7 @@ import resolveController from "../utils/controller.middleware";
 
 export const postRegister = (req: any, res: any) => {
   const { fullName, email, phoneNumber, password, userType } = req.body;
+  console.log(req.body);
   const func = resolveController(
     {
       fullName,

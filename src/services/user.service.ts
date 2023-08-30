@@ -45,7 +45,7 @@ export const registerUser = async ({
   } catch (error) {
     console.log(error);
     return {
-      message: "User is not registered and added to DB",
+      message: "User is not registered and not added to DB",
       status: 400,
     };
   }
