@@ -1,10 +1,14 @@
-
 import { Router } from "express";
-import UserController from "../controllers/user.controller";
+import {
+  postRegister,
+  getUserDetails,
+  refreshToken,
+} from "../controllers/user.controller";
 
 const router = Router();
-const userController = new UserController() as any;
 
-router.post('/register', userController.postRegister);
+router.post("/register", postRegister);
+router.get("/details/:uid", getUserDetails);
+router.get("/refreshToken/:uid", refreshToken);
 
 export default router;

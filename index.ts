@@ -1,21 +1,22 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import OS from 'os';
-import initializeDatabase from './src/database';
-import user from './src/routes/user.routes';
+import express from "express";
+import bodyParser from "body-parser";
+import OS from "os";
+import initializeDatabase from "./src/database";
+import user from "./src/routes/user.routes";
+import routeGenerator from "./src/utils/routeGenerator";
+import { Routes } from "./src/types/route.types";
 
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 const app = express();
-const axios = require('axios');
+const axios = require("axios");
 
-
-console.log('Thread Pool Size => ' + OS.cpus().length);
+console.log("Thread Pool Size => " + OS.cpus().length);
 
 //config
-app.use(express.static('public'));
-require('dotenv').config();
+app.use(express.static("public"));
+require("dotenv").config();
 
 //Get env variables
 const port = process.env.PORT || 8080;
@@ -36,6 +37,5 @@ initializeDatabase();
 app.use(...routeGenerator(Routes.USER, user));
 
 app.listen(port, () => {
-    console.log(`${port} port is listening...`);
+  console.log(`${port} port is listening...`);
 });
-

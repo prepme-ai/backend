@@ -1,3 +1,3 @@
-enum Routes {
-    USER = 'user',
+export enum Routes {
+  USER = "user",
 }

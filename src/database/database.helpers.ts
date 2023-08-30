@@ -1,0 +1,42 @@
+// export const createFirebaseWebConfig = () => {
+//   const firebaseConfig = {
+//     apiKey: FIREBASE_WEB_API_KEY,
+//     authDomain: FIREBASE_WEB_AUTH_DOMAIN,
+//     projectId: FIREBASE_WEB_PROJECT_ID,
+//     storageBucket: FIREBASE_WEB_STORAGE_BUCKET,
+//     messagingSenderId: FIREBASE_WEB_MESSAGING_SENDER_ID,
+//     appId: FIREBASE_WEB_APP_ID,
+//     measurementId: FIREBASE_WEB_MEASUREMENT_ID,
+//   };
+//   return firebaseConfig;
+
+export const createFirebaseAdminConfig = () => {
+  const {
+    //Firebase admin
+    FIREBASE_ADMIN_TYPE,
+    FIREBASE_ADMIN_PROJECT_ID,
+    FIREBASE_ADMIN_PRIVATE_KEY_ID,
+    FIRABASE_ADMIN_PRIVATE_KEY,
+    FIRABASE_ADMIN_CLIENT_EMAIL,
+    FIRABASE_ADMIN_CLIENT_ID,
+    FIRABASE_ADMIN_AUTH_URI,
+    FIRABASE_ADMIN_TOKEN_URI,
+    FIRABASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL,
+    FIRABASE_ADMIN_CLIENT_X509_CERT_URL,
+    FIREBASE_ADMIN_UNIVERSE_DOMAIN,
+  } = process.env;
+  const firebaseConfig = {
+    type: FIREBASE_ADMIN_TYPE,
+    projectId: FIREBASE_ADMIN_PROJECT_ID,
+    privateKeyId: FIREBASE_ADMIN_PRIVATE_KEY_ID,
+    privateKey: FIRABASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+    clientEmail: FIRABASE_ADMIN_CLIENT_EMAIL,
+    clientId: FIRABASE_ADMIN_CLIENT_ID,
+    authUri: FIRABASE_ADMIN_AUTH_URI,
+    tokenUri: FIRABASE_ADMIN_TOKEN_URI,
+    authProviderX509CertUrl: FIRABASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL,
+    clientC509CertUrl: FIRABASE_ADMIN_CLIENT_X509_CERT_URL,
+    universeDomain: FIREBASE_ADMIN_UNIVERSE_DOMAIN,
+  };
+  return firebaseConfig;
+};
