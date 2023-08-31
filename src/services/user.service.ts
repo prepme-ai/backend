@@ -1,7 +1,7 @@
-import UserModel from "../models/user.model";
-import { User } from "../types/user.types";
-import firebaseAdmin from "firebase-admin";
-import { validateRegister } from "./user.helpers";
+import UserModel from '../models/user.model';
+import { User } from '../types/user.types';
+import firebaseAdmin from 'firebase-admin';
+import { validateRegister } from './user.helpers';
 
 /**
  * @requires Object
@@ -10,13 +10,7 @@ import { validateRegister } from "./user.helpers";
  * @note userType 1 = standartUser, 2 = companyUser , 3 = adminUser
  * @note Instead of firestore we will use mongoDB
  */
-export const registerUser = async ({
-  email,
-  fullName,
-  password,
-  phoneNumber,
-  userType,
-}: User) => {
+export const registerUser = async ({ email, fullName, password, phoneNumber, userType }: User) => {
   const auth = firebaseAdmin.auth();
 
   // STEP 1: Check if user exists in Firebase
@@ -26,7 +20,7 @@ export const registerUser = async ({
     const validatorResults = await Promise.all(validators);
     console.log(validatorResults);
     if (validatorResults) {
-      return { message: "User exists", status: 400 };
+      return { message: 'User exists', status: 400 };
     }
   } catch (error) {
     console.log(error);
@@ -41,11 +35,11 @@ export const registerUser = async ({
       emailVerified: true,
       phoneNumber,
     });
-    console.log("User is authenticated Firebase");
+    console.log('User is authenticated Firebase');
   } catch (error) {
     console.log(error);
     return {
-      message: "User is not registered and not added to DB",
+      message: 'User is not registered and not added to DB',
       status: 400,
     };
   }
@@ -61,17 +55,17 @@ export const registerUser = async ({
         userType,
       });
       await userMongo.save();
-      console.log("User created to MongoDB");
+      console.log('User created to MongoDB');
       return {
-        message: "User is registered and added to DB",
+        message: 'User is registered and added to DB',
         uid: userFirebaseAuth.uid,
         status: 201,
       };
-    } else throw "User is not registered and added to DB";
+    } else throw new Error('User is not registered and added to DB');
   } catch (error) {
     console.log(error);
     return {
-      message: "User is registered ,but not added to DB",
+      message: 'User is registered ,but not added to DB',
       status: 400,
     };
   }
@@ -81,14 +75,14 @@ export const registerUser = async ({
  * @param {uid}
  * @returns {message || error ,status ,user}
  */
-export const getUserDetails = async (uid: User["uid"]) => {
+export const getUserDetails = async (uid: User['uid']) => {
   try {
     const user = await UserModel.findOne({ uid: uid });
-    return { message: "User is found", user: user, status: 200 };
+    return { message: 'User is found', user: user, status: 200 };
   } catch (error) {
     console.log(error);
     return {
-      message: "User not found!",
+      message: 'User not found!',
       status: 400,
     };
   }
@@ -98,19 +92,19 @@ export const getUserDetails = async (uid: User["uid"]) => {
  * @param {uid}
  * @returns {message || error ,status ,user}
  */
-export const refreshToken = async (uid: User["uid"]) => {
+export const refreshToken = async (uid: User['uid']) => {
   const auth = firebaseAdmin.auth();
   try {
     const accessToken = await auth.revokeRefreshTokens(uid);
     return {
-      message: "Token is refreshed",
+      message: 'Token is refreshed',
       accessToken: accessToken,
       status: 200,
     };
   } catch (error) {
     console.log(error);
     return {
-      message: "Token is not refreshed!",
+      message: 'Token is not refreshed!',
       status: 400,
     };
   }
