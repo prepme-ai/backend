@@ -21,5 +21,9 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint'],
-  rules: {},
+  rules: {
+    'prefer-const': 'warn',
+    'no-unused-vars': 'on',
+    'no-console': 'warn',
+  },
 };
