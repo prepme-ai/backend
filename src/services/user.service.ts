@@ -1,74 +1,43 @@
 import UserModel from '../models/user.model';
 import { User } from '../types/user.types';
 import firebaseAdmin from 'firebase-admin';
-import { validateRegister } from './user.helpers';
+import { createFirebaseAuth, createMongoEntry, validateRegister } from './user.helpers';
+import { UserLocales } from '../locales/user.locales';
+import { createResponse } from '../utils/service.helpers';
+import { HttpStatusCode as HSC } from 'axios';
 
-/**
- * @requires Object
- * @example {name,surName,email,password,userType,phoneNumber}
- * @returns {message || error ,status ,user}
- * @note userType 1 = standartUser, 2 = companyUser , 3 = adminUser
- * @note Instead of firestore we will use mongoDB
- */
-export const registerUser = async ({ email, fullName, password, phoneNumber, userType }: User) => {
+export const registerUser = async (user: User) => {
   const auth = firebaseAdmin.auth();
 
   // STEP 1: Check if user exists in Firebase
-  let userFirebaseAuth = null;
-  const validators = validateRegister({ email, phoneNumber });
-  try {
-    const validatorResults = await Promise.all(validators);
-    console.log(validatorResults);
-    if (validatorResults) {
-      return { message: 'User exists', status: 400 };
-    }
-  } catch (error) {
-    console.log(error);
-  }
+  const isUserExists = await validateRegister({ email: user.email, phoneNumber: user.phoneNumber }, auth);
+  if (isUserExists) return createResponse({
+    message:UserLocales.USER_EXITS,
+    statusCode: HSC.Conflict
+  })
 
   // STEP 2: Create user in Firebase
-  try {
-    userFirebaseAuth = await auth.createUser({
-      displayName: fullName,
-      email: email,
-      password,
-      emailVerified: true,
-      phoneNumber,
-    });
-    console.log('User is authenticated Firebase');
-  } catch (error) {
-    console.log(error);
-    return {
-      message: 'User is not registered and not added to DB',
-      status: 400,
-    };
-  }
+  const userFirebaseAuth = await createFirebaseAuth(user, auth);
+  if (!userFirebaseAuth) return createResponse({
+    message: UserLocales.NOT_REGISTERED_BOTH,
+    statusCode: HSC.BadRequest
+  });
 
   // STEP 3: Create user in MongoDB
-  try {
-    if (userFirebaseAuth) {
-      const userMongo = new UserModel({
-        uid: userFirebaseAuth.uid,
-        fullName,
-        email,
-        phoneNumber,
-        userType,
-      });
-      await userMongo.save();
-      console.log('User created to MongoDB');
-      return {
-        message: 'User is registered and added to DB',
-        uid: userFirebaseAuth.uid,
-        status: 201,
-      };
-    } else throw new Error('User is not registered and added to DB');
-  } catch (error) {
-    console.log(error);
-    return {
-      message: 'User is registered ,but not added to DB',
-      status: 400,
-    };
-  }
+  const mongoEntry = await createMongoEntry(user, userFirebaseAuth.uid);
+  if (!mongoEntry) return createResponse({
+    message: UserLocales.REGISTERED_ONLY_FB,
+    statusCode: HSC.BadRequest
+  })
+
+  // STEP 4: Successfully registered.
+  return  createResponse({
+    message: UserLocales.REGISTERED_BOTH,
+    statusCode: HSC.Created,
+    data: {
+      uid: userFirebaseAuth.uid
+    }
+  })
 };
 /**
  * @requires Object
@@ -87,11 +56,7 @@ export const getUserDetails = async (uid: User['uid']) => {
     };
   }
 };
-/**
- * @requires Object
- * @param {uid}
- * @returns {message || error ,status ,user}
- */
+
 export const refreshToken = async (uid: User['uid']) => {
   const auth = firebaseAdmin.auth();
   try {

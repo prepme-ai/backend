@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { CreateResponseI } from "./service.helpers";
 
 /**
  * @param {any} params
@@ -9,8 +10,8 @@ import { Request, Response } from "express";
 function resolveController(params: any, callback: any) {
   return function (req: Request, res: Response) {
     callback(params)
-      .then((result: any) => {
-        res.status(result.status).json({ ...result });
+      .then((result: CreateResponseI) => {
+        res.status(result.statusCode).json({ ...result });
       })
       .catch((error: any) => {
         console.log(error);
