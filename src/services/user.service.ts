@@ -12,7 +12,7 @@ export const registerUser = async (user: User) => {
   // STEP 1: Check if user exists in Firebase
   const isUserExists = await validateRegister({ email: user.email, phoneNumber: user.phoneNumber }, auth);
   if (isUserExists) return createResponse({
-    message:UserLocales.USER_EXITS,
+    message:UserLocales.USER_EXIST,
     statusCode: HSC.Conflict
   })
 
@@ -39,21 +39,24 @@ export const registerUser = async (user: User) => {
     }
   })
 };
-/**
- * @requires Object
- * @param {uid}
- * @returns {message || error ,status ,user}
- */
-export const getUserDetails = async (uid: User['uid']) => {
+
+export const getUserDetails = async ({ uid }: { uid: User['uid'] }) => {
   try {
     const user = await UserModel.findOne({ uid: uid });
-    return { message: 'User is found', user: user, status: 200 };
+
+    if (!user) throw new Error (UserLocales.USER_NOT_FOUND);
+
+    return createResponse({
+      message: UserLocales.USER_EXIST,
+      statusCode: HSC.Found,
+      data: user,
+    });
   } catch (error) {
-    console.log(error);
-    return {
-      message: 'User not found!',
-      status: 400,
-    };
+    return createResponse({
+      message: UserLocales.USER_NOT_FOUND,
+      statusCode: HSC.BadRequest,
+      data: { uid }
+    });
   }
 };
 

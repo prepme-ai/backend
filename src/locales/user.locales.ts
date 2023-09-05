@@ -1,6 +1,7 @@
 export enum UserLocales {
     // Response messages
-    USER_EXITS =  "User exists.",
+    USER_EXIST =  "User exists.",
+    USER_NOT_FOUND = "User not found!",
     NOT_REGISTERED_BOTH = "User is not registered FB and not added to DB. Enter valid phonenumber and email!",
     REGISTERED_BOTH = "User is registered and added to DB",
     REGISTERED_ONLY_FB = "User is registered FB but didn't create mongo entry.",
