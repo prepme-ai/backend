@@ -2,6 +2,20 @@ import { Request, Response } from "express";
 import * as UserService from "../services/user.service";
 import resolveController from "../utils/controller.middleware";
 
+export const postLogin = (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  console.log(req.body);
+  const func = resolveController(
+    {
+      email,
+      password
+    },
+    UserService.loginUser
+  );
+  func(req, res);
+};
+
+
 export const postRegister = (req: Request, res: Response) => {
   const { fullName, email, phoneNumber, password, userType } = req.body;
   console.log(req.body);

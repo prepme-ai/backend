@@ -1,10 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import OS from 'os';
-import initializeDatabase from './src/database';
-import user from './src/routes/user.routes';
-import routeGenerator from './src/utils/routeGenerator';
-import { Routes } from './src/types/route.types';
+import { initDBAdmins } from './database';
+import user from './routes/user.routes';
+import routeGenerator from './utils/routeGenerator';
+import { Routes } from './types/route.types';
 
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /*parse application/json*/
 app.use(bodyParser.json());
 
-initializeDatabase();
+initDBAdmins();
 
 //Routes
 app.use(...routeGenerator(Routes.USER, user));

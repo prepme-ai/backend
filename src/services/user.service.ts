@@ -6,6 +6,33 @@ import { UserLocales } from '../locales/user.locales';
 import { createResponse } from '../utils/service.helpers';
 import { HttpStatusCode as HSC } from 'axios';
 
+import FirebaseAuthService from '../database/firebase.helpers';
+
+export const loginUser = async ({
+  email,
+  password
+}:{
+  email: User["email"],
+  password: User["password"]
+}) => {
+  try {
+    const user:any = await FirebaseAuthService.loginUserFB({ email, password });
+    if (!user) throw new Error(UserLocales.NOT_LOGGED_IN);
+
+    return createResponse({
+      message: UserLocales.LOGGED_IN_SUCCESS,
+      statusCode: HSC.Accepted,
+      data: user
+    });
+  } catch (error) {
+    console.log(error);
+    return createResponse({
+      message: UserLocales.NOT_LOGGED_IN,
+      statusCode: HSC.BadRequest
+    });
+  }
+}
+
 export const registerUser = async (user: User) => {
   const auth = firebaseAdmin.auth();
 
