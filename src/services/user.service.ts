@@ -1,7 +1,7 @@
 import UserModel from '../models/user.model';
 import { User } from '../types/user.types';
 import firebaseAdmin from 'firebase-admin';
-import { createFirebaseAuth, createMongoEntry, validateRegister } from './user.helpers';
+import { createFirebaseAuth, createMongoEntry, handleLoginErrors, validateRegister } from './user.helpers';
 import { UserLocales } from '../locales/user.locales';
 import { createResponse } from '../utils/service.helpers';
 import { HttpStatusCode as HSC } from 'axios';
@@ -17,6 +17,7 @@ export const loginUser = async ({
 }) => {
   try {
     const user:any = await FirebaseAuthService.loginUserFB({ email, password });
+
     if (!user) throw new Error(UserLocales.NOT_LOGGED_IN);
 
     return createResponse({
@@ -24,12 +25,9 @@ export const loginUser = async ({
       statusCode: HSC.Accepted,
       data: user
     });
-  } catch (error) {
-    console.log(error);
-    return createResponse({
-      message: UserLocales.NOT_LOGGED_IN,
-      statusCode: HSC.BadRequest
-    });
+  } catch (error:any) {
+    const responseObject = handleLoginErrors(error);
+    return createResponse(responseObject);
   }
 }
 

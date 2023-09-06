@@ -3,11 +3,6 @@ import firebase from "firebase/compat/app";
 import firebaseAdmin from 'firebase-admin';
 import { createFirebaseAdminConfig, createFirebaseWebConfig, } from './database.helpers';
 
-let firebaseInstance:any;
-
-export default firebaseInstance;
-
-
 export async function initDBAdmins () {
   mongoose.connect(process.env.ATLAS_URI || '');
 
@@ -16,7 +11,6 @@ export async function initDBAdmins () {
 
   if (!firebase.apps.length) {
     firebase.initializeApp(createFirebaseWebConfig());
-    firebaseInstance = firebase;
   }
 
   try {

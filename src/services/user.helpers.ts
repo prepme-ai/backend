@@ -3,6 +3,45 @@ import { User } from "../types/user.types";
 import { Auth } from "firebase-admin/lib/auth/auth";
 import { UserLocales } from "../locales/user.locales";
 import UserModel from "../models/user.model";
+import { CreateResponseI } from "../utils/service.helpers";
+import { FirebaseAuthenticationErrors } from "../types/error.types";
+import { AppLocales } from "../locales/app.locales";
+import { HttpStatusCode as HSC } from 'axios';
+
+export const handleLoginErrors = (error:any):CreateResponseI => {
+    const handlers:PredicateHandlerI<CreateResponseI>[] = [
+      {
+        predicate: () => error?.code === FirebaseAuthenticationErrors.WRONG_PASSWORD,
+        handler: () =>({
+          message: UserLocales.PASSWORD_WRONG,
+          statusCode: HSC.BadRequest
+        })
+      },
+      {
+        predicate: () => error?.code === FirebaseAuthenticationErrors.USER_NOT_FOUND,
+        handler: () =>({
+          message: UserLocales.USER_NOT_FOUND,
+          statusCode: HSC.BadRequest
+        })
+      },
+      {
+        predicate: () => error?.code === FirebaseAuthenticationErrors.TOO_MANY_REQUESTS,
+        handler: () =>({
+          message: AppLocales.TOO_MANY_REQUESTS,
+          statusCode: HSC.BadRequest
+        })
+      },
+      {
+        predicate: () => true,
+        handler: () =>({
+          message: UserLocales.INTERNAL_ERROR,
+          statusCode: HSC.BadRequest
+        })
+      }
+    ]
+    const responseObject = handlers.find(({ predicate }) => predicate())?.handler() as CreateResponseI;
+    return responseObject;
+}
 
 export const validateRegister = async ({
   email,

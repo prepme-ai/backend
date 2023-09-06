@@ -1,5 +1,7 @@
 export enum UserLocales {
     // Response messages
+    INTERNAL_ERROR = "Error is not handled correctly!",
+
     USER_EXIST =  "User exists.",
     NOT_REGISTERED_BOTH = "User is not registered FB and not added to DB. Enter valid phonenumber and email!",
     REGISTERED_BOTH = "User is registered and added to DB",
@@ -9,6 +11,7 @@ export enum UserLocales {
 
     LOGGED_IN_SUCCESS = "Logged in successfully!",
     NOT_LOGGED_IN = "Not logged in!",
+    PASSWORD_WRONG = "Password is wrong!",
 
     // LOGS
     REGISTERED_FB = "User is authenticated Firebase.",
