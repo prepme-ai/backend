@@ -10,9 +10,10 @@ export const postLogin = (req: Request, res: Response) => {
       email,
       password
     },
-    UserService.loginUser
+    UserService.loginUser,
+    req,
+    res
   );
-  func(req, res);
 };
 
 
@@ -27,18 +28,18 @@ export const postRegister = (req: Request, res: Response) => {
       password,
       userType,
     },
-    UserService.registerUser
+    UserService.registerUser,
+    req,
+    res
   );
-  func(req, res);
 };
 
 export const getUserDetails = (req: Request, res: Response) => {
   const { uid } = req.params;
-  const func = resolveController({ uid }, UserService.getUserDetails);
-  func(req, res);
+  const func = resolveController({ uid }, UserService.getUserDetails, req, res);
 };
 export const refreshToken = (req: Request, res: Response) => {
   const { uid } = req.params;
-  const func = resolveController({ uid }, UserService.refreshToken);
-  func(req, res);
+  console.log(uid)
+  const func = resolveController({ uid }, UserService.refreshToken, req, res);
 };

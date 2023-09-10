@@ -51,6 +51,7 @@ export const validateRegister = async ({
   phoneNumber: User["phoneNumber"];
 }, auth:Auth) => {
   try {
+    // TODO: Handle it correctly
     console.log("here", await Promise.all([auth.getUserByEmail(email), auth.getUserByPhoneNumber(phoneNumber)]));
     return true;
   }

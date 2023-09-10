@@ -13,6 +13,9 @@ export enum UserLocales {
     NOT_LOGGED_IN = "Not logged in!",
     PASSWORD_WRONG = "Password is wrong!",
 
+    TOKEN_REFRESHED = "Token is refreshed!",
+    TOKEN_NOT_REFRESHED = "Token is not refreshed!",
+
     // LOGS
     REGISTERED_FB = "User is authenticated Firebase.",
     CREATED_MONGO_ENTRY = "Created mongoDB user entry.",    

@@ -7,8 +7,8 @@ import { CreateResponseI } from "./service.helpers";
  * @returns {function} callback
  * @description This function is used to resolve the controller functions
  */
-function resolveController(params: any, callback: any) {
-  return function (req: Request, res: Response) {
+function resolveController(params: any, callback: any, req: Request, res: Response) {
+  return function () {
     callback(params)
       .then((result: CreateResponseI) => {
         res.status(result.statusCode).json({ ...result });
@@ -17,7 +17,7 @@ function resolveController(params: any, callback: any) {
         console.log(error);
         res.status(500).json({ message: "Server Internal Error!" });
       });
-  };
+  }();
 }
 
 export default resolveController;

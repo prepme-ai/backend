@@ -1,12 +1,12 @@
 import UserModel from '../models/user.model';
 import { User } from '../types/user.types';
-import firebaseAdmin from 'firebase-admin';
 import { createFirebaseAuth, createMongoEntry, handleLoginErrors, validateRegister } from './user.helpers';
 import { UserLocales } from '../locales/user.locales';
 import { createResponse } from '../utils/service.helpers';
 import { HttpStatusCode as HSC } from 'axios';
 
 import FirebaseAuthService from '../database/firebase.helpers';
+import { getAuth } from '../utils/firebase.helpers';
 
 export const loginUser = async ({
   email,
@@ -32,7 +32,7 @@ export const loginUser = async ({
 }
 
 export const registerUser = async (user: User) => {
-  const auth = firebaseAdmin.auth();
+  const auth = getAuth();
 
   // STEP 1: Check if user exists in Firebase
   const isUserExists = await validateRegister({ email: user.email, phoneNumber: user.phoneNumber }, auth);
@@ -85,20 +85,21 @@ export const getUserDetails = async ({ uid }: { uid: User['uid'] }) => {
   }
 };
 
-export const refreshToken = async (uid: User['uid']) => {
-  const auth = firebaseAdmin.auth();
+export const refreshToken = async ({ uid }: { uid: User['uid'] }) => {
+  const auth = getAuth();
   try {
     const accessToken = await auth.revokeRefreshTokens(uid);
-    return {
-      message: 'Token is refreshed',
-      accessToken: accessToken,
-      status: 200,
-    };
+    console.log(accessToken);
+    return createResponse({
+      message: UserLocales.TOKEN_REFRESHED,
+      statusCode: HSC.Created,
+    })
   } catch (error) {
     console.log(error);
-    return {
-      message: 'Token is not refreshed!',
-      status: 400,
-    };
+    return createResponse({
+      message: UserLocales.TOKEN_NOT_REFRESHED,
+      statusCode: HSC.BadRequest,
+      data: { uid }
+    });
   }
 };
