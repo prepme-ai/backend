@@ -10,8 +10,9 @@ import { registerUserMiddleware } from "../middlewares/user.middlewares";
 const router = Router();
 
 router
-  .get("/details/:uid", getUserDetails)
+  .get("/:uid", getUserDetails)
   .post("/", registerUserMiddleware, postRegister)
+  
 router.post("/login", postLogin);
 router.get("/refreshToken/:uid", refreshToken);
 
