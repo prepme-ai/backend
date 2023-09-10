@@ -1,8 +1,8 @@
 export enum UserTypes {
-  ADMIN = "admin",
-  PROFESSIONAL = "professional",
-  ATTENDANT = "attendant",
-  GUEST = "guest",
+  ADMIN = "99",
+  PROFESSIONAL = "2",
+  ATTENDANT = "1",
+  GUEST = "0",
 }
 
 export interface User {

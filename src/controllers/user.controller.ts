@@ -4,8 +4,7 @@ import resolveController from "../utils/controller.middleware";
 
 export const postLogin = (req: Request, res: Response) => {
   const { email, password } = req.body;
-  console.log(req.body);
-  const func = resolveController(
+  resolveController(
     {
       email,
       password
@@ -19,8 +18,7 @@ export const postLogin = (req: Request, res: Response) => {
 
 export const postRegister = (req: Request, res: Response) => {
   const { fullName, email, phoneNumber, password, userType } = req.body;
-  console.log(req.body);
-  const func = resolveController(
+  resolveController(
     {
       fullName,
       email,
@@ -36,10 +34,9 @@ export const postRegister = (req: Request, res: Response) => {
 
 export const getUserDetails = (req: Request, res: Response) => {
   const { uid } = req.params;
-  const func = resolveController({ uid }, UserService.getUserDetails, req, res);
+  resolveController({ uid }, UserService.getUserDetails, req, res);
 };
 export const refreshToken = (req: Request, res: Response) => {
   const { uid } = req.params;
-  console.log(uid)
-  const func = resolveController({ uid }, UserService.refreshToken, req, res);
+  resolveController({ uid }, UserService.refreshToken, req, res);
 };

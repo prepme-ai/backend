@@ -5,12 +5,13 @@ import {
   refreshToken,
   postLogin,
 } from "../controllers/user.controller";
+import { registerUserMiddleware } from "../middlewares/user.middlewares";
 
 const router = Router();
 
 router
   .get("/details/:uid", getUserDetails)
-  .post("/", postRegister)
+  .post("/", registerUserMiddleware, postRegister)
 router.post("/login", postLogin);
 router.get("/refreshToken/:uid", refreshToken);
 

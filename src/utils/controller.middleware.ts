@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import { CreateResponseI } from "./service.helpers";
+import { CreateResponseI, createResponse } from "./service.helpers";
+import { generateResponse } from "./generateResponse";
+import { HttpStatusCode } from "axios";
 
 /**
  * @param {any} params
@@ -10,12 +12,15 @@ import { CreateResponseI } from "./service.helpers";
 function resolveController(params: any, callback: any, req: Request, res: Response) {
   return function () {
     callback(params)
-      .then((result: CreateResponseI) => {
-        res.status(result.statusCode).json({ ...result });
+      .then((responseObj: CreateResponseI) => {
+        generateResponse(res, responseObj);
       })
       .catch((error: any) => {
         console.log(error);
-        res.status(500).json({ message: "Server Internal Error!" });
+        generateResponse(res, createResponse({
+          message: "Server Internal Error!",
+          statusCode: HttpStatusCode.InternalServerError,
+        }));
       });
   }();
 }
