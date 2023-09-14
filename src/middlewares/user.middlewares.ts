@@ -5,13 +5,15 @@ import { createResponse } from "../utils/service.helpers";
 import { HttpStatusCode } from "axios";
 import { AppLocales } from "../locales/app.locales";
 import { generateResponse } from "../utils/generateResponse";
+import { GenderTypes } from "../types/user.types";
 
 const registerUserSchema = Joi.object({
-    fullName: Joi.string()
-        .min(3)
-        .max(65)
-        .required(),
-
+    name: Joi.string().min(3).max(65).required(),
+    surname: Joi.string().min(3).max(65).required(),
+    birthday: Joi.date().required(),
+    gender: Joi.object().keys({
+      type: Joi.valid(...Object.values(GenderTypes)).required(),
+    }),
     email: Joi.string()
         .email({ minDomainSegments: 2, tlds: { allow: ["com"] } })
         .required(),
