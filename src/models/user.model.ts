@@ -1,6 +1,6 @@
-import { UserTypes } from "../types/user.types";
+import { UserTypes } from '../types/user.types';
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
   {
@@ -12,11 +12,26 @@ const userSchema = new mongoose.Schema(
     image: {
       type: String,
     },
-    fullName: {
+    name: {
       type: String,
       required: true,
       minLength: 3,
       maxLength: 65,
+    },
+    surname: {
+      type: String,
+      required: true,
+      minLength: 3,
+      maxLength: 65,
+    },
+    birtday: {
+      type: Date,
+      required: true,
+    },
+    gender: {
+      enum: UserTypes,
+      type: String,
+      required: true,
     },
     email: {
       type: String,
@@ -37,7 +52,7 @@ const userSchema = new mongoose.Schema(
       enum: UserTypes,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
-const UserModel = mongoose.model("User", userSchema);
+const UserModel = mongoose.model('User', userSchema);
 export default UserModel;

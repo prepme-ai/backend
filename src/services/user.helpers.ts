@@ -61,13 +61,14 @@ export const validateRegister = async ({
 
 export const createFirebaseAuth = async ({
   email,
-  fullName,
+  name,
+  surname,
   password,
   phoneNumber
 }:User, auth:Auth) => {
   try {
     const userFirebaseAuth = await auth.createUser({
-      displayName: fullName,
+      displayName: `${name} ${surname}`,
       email: email,
       password,
       emailVerified: true,
@@ -83,7 +84,10 @@ export const createFirebaseAuth = async ({
 }
 
 export const createMongoEntry = async ({
-  fullName,
+  name,
+  surname,
+  birthday,
+  gender,
   email,
   phoneNumber,
   userType,
@@ -91,7 +95,10 @@ export const createMongoEntry = async ({
   try {
     const userMongo = new UserModel({
       uid,
-      fullName,
+      name,
+      surname,
+      birthday,
+      gender,
       email,
       phoneNumber,
       userType,

@@ -16,16 +16,9 @@ export const postLogin = (req: Request, res: Response) => {
 };
 
 export const postRegister = (req: Request, res: Response) => {
-  const { fullName, email, phoneNumber, password, userType } = req.body;
+  const { name, surname, birthday, gender, email, phoneNumber, password, userType } = req.body;
   resolveController(
-    {
-      //!!!!!! fullName will change to name, surname
-      fullName,
-      email,
-      phoneNumber,
-      password,
-      userType,
-    },
+    { name, surname, birthday, gender, email, phoneNumber, password, userType },
     UserService.registerUser,
     req,
     res,
