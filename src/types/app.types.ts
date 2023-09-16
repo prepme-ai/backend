@@ -1,4 +1,4 @@
-interface PredicateHandlerI<T>{
-    predicate: () => boolean;
-    handler: () => T;
+interface PredicateHandlerI<T> {
+  predicate: () => boolean;
+  handler: () => T;
 }

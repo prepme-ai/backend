@@ -1,10 +1,10 @@
 // TODO: Write tests for per func.
 // TODO: Configure package json.
 
-import { describe, expect, test } from "jest"
+import { describe, expect, test } from 'jest';
 
-describe('Register User Validated', () => { 
-    test("", () => {
-        expect()
-    })
- });
+describe('Register User Validated', () => {
+  test('', () => {
+    expect();
+  });
+});

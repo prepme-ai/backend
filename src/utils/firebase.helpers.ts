@@ -1,3 +1,3 @@
-import firebaseAdmin from "firebase-admin";
+import firebaseAdmin from 'firebase-admin';
 
 export const getAuth = () => firebaseAdmin.auth();
