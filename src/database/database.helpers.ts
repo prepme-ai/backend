@@ -6,9 +6,9 @@ export const createFirebaseWebConfig = () => {
     FIREBASE_WEB_STORAGE_BUCKET,
     FIREBASE_WEB_MESSAGING_SENDER_ID,
     FIREBASE_WEB_APP_ID,
-    FIREBASE_WEB_MEASUREMENT_ID
+    FIREBASE_WEB_MEASUREMENT_ID,
   } = process.env;
-  
+
   const firebaseConfig = {
     apiKey: FIREBASE_WEB_API_KEY,
     authDomain: FIREBASE_WEB_AUTH_DOMAIN,
@@ -40,7 +40,7 @@ export const createFirebaseAdminConfig = () => {
     type: FIREBASE_ADMIN_TYPE,
     projectId: FIREBASE_ADMIN_PROJECT_ID,
     privateKeyId: FIREBASE_ADMIN_PRIVATE_KEY_ID,
-    privateKey: FIRABASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+    privateKey: FIRABASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, '\n'),
     clientEmail: FIRABASE_ADMIN_CLIENT_EMAIL,
     clientId: FIRABASE_ADMIN_CLIENT_ID,
     authUri: FIRABASE_ADMIN_AUTH_URI,

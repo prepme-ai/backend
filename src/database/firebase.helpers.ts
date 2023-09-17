@@ -1,13 +1,13 @@
-import "firebase/compat/auth";
+import 'firebase/compat/auth';
 
-import firebase from "firebase/compat/app";
-import { User } from "../types/user.types";
+import firebase from 'firebase/compat/app';
+import { User } from '../types/user.types';
 
 // ADD types later
-const loginUserFB = ({ email, password } : { email: User["email"], password: User["password"] }) => {
-    const auth = firebase.auth() ;
-    return auth.signInWithEmailAndPassword(email, password);
-}
+const loginUserFB = ({ email, password }: { email: User['email']; password: User['password'] }) => {
+  const auth = firebase.auth();
+  return auth.signInWithEmailAndPassword(email, password);
+};
 
 // const logoutUserFB = () => auth.signOut();
 

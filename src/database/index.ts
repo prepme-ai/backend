@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
-import firebase from "firebase/compat/app";
+import firebase from 'firebase/compat/app';
 import firebaseAdmin from 'firebase-admin';
-import { createFirebaseAdminConfig, createFirebaseWebConfig, } from './database.helpers';
+import { createFirebaseAdminConfig, createFirebaseWebConfig } from './database.helpers';
 
-export async function initDBAdmins () {
+export async function initDBAdmins() {
   mongoose.connect(process.env.ATLAS_URI || '');
 
   const connection = mongoose.connection;
