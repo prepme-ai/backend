@@ -10,9 +10,7 @@ const registerUserSchema = Joi.object({
   name: Joi.string().min(3).max(65).required(),
   surname: Joi.string().min(3).max(65).required(),
   birthday: Joi.date().required(),
-  gender: Joi.object().keys({
-    type: Joi.valid(...Object.values(GenderTypes)).required(),
-  }),
+  gender: Joi.string().valid(...Object.values(GenderTypes)),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ['com'] } })
     .required(),
@@ -22,7 +20,6 @@ const registerUserSchema = Joi.object({
   phoneNumber: Joi.string().required(),
   // Parse country code and test regex
   // .pattern(new RegExp("^[0-9]*$")),
-
   userType: Joi.string().required(),
 });
 
@@ -33,7 +30,7 @@ export const registerUserMiddleware = (req: Request, res: Response, next: NextFu
   if (validatation.error) {
     const responseObj = createResponse({
       message: AppLocales.BODY_NOT_VALIDATED,
-      statusCode: HttpStatusCode.BadRequest,
+      statusCode: HttpStatusCode.NotAcceptable,
       data: validatation.error,
     });
     return generateResponse(res, responseObj);
